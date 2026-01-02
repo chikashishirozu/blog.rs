@@ -1,0 +1,83 @@
+use std::path::Path;
+use axum::Router;   // 追加
+use async_trait::async_trait;
+use loco_rs::{
+    app::{AppContext, Hooks},
+    boot::{create_app, BootResult, StartMode},
+    controller::AppRoutes,
+    db::{self, truncate_table},
+    task::Tasks,
+    worker::{AppWorker, Processor},
+    Result,
+};
+use migration::Migrator;
+use sea_orm::DatabaseConnection;
+use tower_http::services::ServeDir;   //　追加
+
+use crate::{controllers, models::_entities::users, tasks, workers::downloader::DownloadWorker};
+
+pub struct App;
+
+#[async_trait]
+impl Hooks for App {
+    fn app_name() -> &'static str {
+        env!("CARGO_CRATE_NAME")
+    }
+
+    fn app_version() -> String {
+        format!(
+            "{} ({})",
+            env!("CARGO_PKG_VERSION"),
+            option_env!("BUILD_SHA")
+                .or(option_env!("GITHUB_SHA"))
+                .unwrap_or("dev")
+        )
+    }
+
+    async fn boot(mode: StartMode, environment: &str) -> Result<BootResult> {
+        create_app::<Self, Migrator>(mode, environment).await
+    }
+
+    fn routes() -> AppRoutes {
+        AppRoutes::with_default_routes()
+            // HTMLルート（ブラウザ用）
+            .add_route(controllers::html_routes())
+            
+            // 静的ファイル配信を追加（APIより前が重要！）
+            .add_route(
+                Router::new()
+                    .nest_service("/static", ServeDir::new("static"))
+            )
+            // Reactアプリ用（/assets配信）
+            .add_route(
+                Router::new()
+                    .nest_service("/assets", ServeDir::new("frontend/dist/assets"))
+            )            
+            
+            // APIルート（JSON用） - HTMLルートと競合するのでコメントアウト
+            .prefix("/api")
+            // .add_route(controllers::post::routes())  // ← HTMLと競合するため無効化
+            .add_route(controllers::auth::routes())
+            .add_route(controllers::user::routes())
+            
+            .add_route(controllers::post::routes())  // 必要なら有効化            
+    }
+
+    fn connect_workers<'a>(p: &'a mut Processor, ctx: &'a AppContext) {
+        p.register(DownloadWorker::build(ctx));
+    }
+
+    fn register_tasks(tasks: &mut Tasks) {
+        tasks.register(tasks::seed::SeedData);
+    }
+
+    async fn truncate(db: &DatabaseConnection) -> Result<()> {
+        truncate_table(db, users::Entity).await?;
+        Ok(())
+    }
+
+    async fn seed(db: &DatabaseConnection, base: &Path) -> Result<()> {
+        db::seed::<users::ActiveModel>(db, &base.join("users.yaml").display().to_string()).await?;
+        Ok(())
+    }
+}
