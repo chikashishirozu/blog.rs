@@ -1,5 +1,12 @@
 # blog.rs
 
+This project is based on:
+
+https://github.com/mateusfg7/blog.rs
+
+Modified by @chikashishirozu
+
+
 # blog.rs を動かすために必要なもの
 
 # 1. 必須インフラ
