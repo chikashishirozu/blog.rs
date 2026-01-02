@@ -59,7 +59,7 @@ cargo install loco-cli
 5. セットアップ手順
 bash
 # 1. リポジトリをクローン
-git clone https://github.com/mateusfg7/blog.rs.git
+git clone https://github.com/chikashishirozu/blog.rs.git
 cd blog.rs
 
 # 2. 依存関係をインストール
@@ -74,3 +74,8 @@ cargo loco start
 # 5. 実際に使える Argon2 ハッシュ
 Password for all sample users: "password"
 Generated via: argon2id, m=19456, t=2, p=1
+
+⚠️ This project is under active development.
+⚠️ NOT production-ready.
+⚠️ All credentials are dummy values.
+
