@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <title>ブログ記事一覧</title>
+</head>
+<body>
+<img class="image" src="top01.png" id="topimage01" alt="">
+    <h1>Posts</h1>
+    <ul>
+    {% for p in posts %}
+        <li>
+            <a href="/api/posts/{{ p.title|urlencode }}">{{ p.title }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+
+    <a href="/api/posts/new">+ 新規作成</a>
+</body>
+</html>

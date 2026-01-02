@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>{{ post.title }}</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <div class="content" style="white-space: pre-wrap;">
+        {{ post.md_content.as_ref().unwrap_or(&String::new()) }}
+    </div>
+    <hr>
+    <a href="/api/posts">← 戻る</a> | 
+    <a href="/api/posts/{{ post.title|urlencode }}/edit">編集</a> | 
+    <a href="/api/posts/{{ post.title|urlencode }}/delete" onclick="return confirm('削除しますか?')">削除</a>
+</body>
+</html>

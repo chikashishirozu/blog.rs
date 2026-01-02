@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/png">   
+    <link rel="stylesheet" href="/static/style.css">
+    <title>記事フォーム</title>
+</head>
+<body>
+    <h1>Post Form</h1>
+
+    <!-- ⭐ IDを追加 -->
+    <form id="post-form" method="post">
+        <div style="margin-bottom: 15px;">
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" name="title"
+                   value="{{ title }}"
+                   style="width: 100%; padding: 8px;"
+                   required>
+        </div>
+        
+        <!-- ⭐ nameをmd_contentに統一 -->
+        <div style="margin-bottom: 15px;">
+            <label for="md_content">Content (Markdown):</label><br>
+            <textarea id="md_content" name="md_content" rows="15"
+                      style="width: 100%; padding: 8px;"
+                      required>{{ md_content }}</textarea>
+        </div>
+        
+        <button type="submit" style="padding: 10px 20px;">Save</button>
+        <a href="/posts" style="margin-left: 10px;">Cancel</a>
+    </form>
+    
+    <script>
+    // ⭐ DOMContentLoadedで囲む（ベストプラクティス）
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById("post-form");
+      
+      // ⭐ フォームの存在確認（防御的プログラミング）
+      if (!form) {
+        console.error("Form not found!");
+        return;
+      }
+      
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // ⭐ フィールド名をmd_contentに修正
+        const data = {
+          title: form.title.value,
+          md_content: form.md_content.value  // bodyではなくmd_content
+        };
+
+        try {
+          const res = await fetch("/api/posts", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              // ⭐ 認証が必要な場合はトークンを追加
+              // "Authorization": "Bearer " + localStorage.getItem('token')
+            },
+            body: JSON.stringify(data)
+          });
+
+          if (res.ok) {
+            alert("保存しました");
+            location.href = "/posts";
+          } else {
+            // ⭐ エラー詳細を表示
+            const error = await res.text();
+            alert("保存失敗: " + error);
+          }
+        } catch (err) {
+          console.error(err);
+          alert("ネットワークエラー");
+        }
+      });
+    });
+    </script>    
+    
+</body>
+</html>
