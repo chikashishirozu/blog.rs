@@ -122,3 +122,6 @@ Generated via: argon2id, m=19456, t=2, p=1
 
 ⚠️ All credentials are dummy values.
 
+## License
+
+This project is based on blog.rs by mateusfg7 and follows the same license.
