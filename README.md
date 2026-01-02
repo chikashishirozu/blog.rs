@@ -68,11 +68,13 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # 最新版に更新
 
 bash
+
 rustup update
 
 # 4. Loco CLI のインストール
 
 bash
+
 cargo install loco-cli
 
 # 5. セットアップ手順
