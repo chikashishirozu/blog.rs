@@ -70,3 +70,7 @@ cargo loco db migrate
 
 # 4. アプリケーション起動
 cargo loco start
+
+# 5. 実際に使える Argon2 ハッシュ
+Password for all sample users: "password"
+Generated via: argon2id, m=19456, t=2, p=1
