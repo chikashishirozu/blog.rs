@@ -15,18 +15,14 @@ PostgreSQLとRedisのローカルインスタンスが必要 githubです。
 
 # PostgreSQL を起動
 
-bash
+```bash
 
-docker run -d -p 5432:5432 \\
-
-  -e POSTGRES_USER=loco \\
-  
-  -e POSTGRES_DB=loco_app \\
-  
-  -e POSTGRES_PASSWORD="loco" \\
-  
+docker run -d -p 5432:5432 \
+  -e POSTGRES_USER=loco \
+  -e POSTGRES_DB=loco_app \
+  -e POSTGRES_PASSWORD="loco" \
   postgres:15.3-alpine
-
+```
 # Redis を起動
 
 docker run -d -p 6379:6379 redis:alpine
