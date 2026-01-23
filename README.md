@@ -94,6 +94,8 @@ cd blog.rs
 ```
 # 2. 依存関係をインストール
 ```
+cargo clean
+
 cargo build
 ```
 # 3. データベースマイグレーション実行
