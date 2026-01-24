@@ -4,11 +4,11 @@ pub mod posts_html;
 pub mod user;
 
 // 各モジュールのルート関数を再エクスポート
-pub use auth::routes as auth_routes;
-pub use post::routes as post_routes;
-pub use user::routes as user_routes;
-pub use posts_html::routes as html_routes;
-
+// pub use auth::routes as auth_routes;
+// pub use post::routes as post_routes;
+// pub use user::routes as user_routes;
+// pub use posts_html::routes as html_routes;
+// pub use auth_page::routes as auth_page_routes;
 // この関数は削除または修正が必要です
 // 問題点: posts_html::index などの関数が見つからない
 // pub fn html_routes() -> Router<AppContext> {

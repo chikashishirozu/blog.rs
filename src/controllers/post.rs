@@ -74,6 +74,9 @@ pub async fn new_form() -> Html<&'static str> {
 <head>
     <title>新規投稿</title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/png">   
+    <link rel="stylesheet" href="/static/style.css">    
     <style>
         body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
         form { display: flex; flex-direction: column; gap: 15px; }
@@ -83,6 +86,7 @@ pub async fn new_form() -> Html<&'static str> {
     </style>
 </head>
 <body>
+<img class="image" src="/static/top01.png" id="topimage01" alt="">
     <h1>新規投稿作成</h1>
     <form id="postForm">
         <input type="text" id="title" placeholder="タイトル" required>
