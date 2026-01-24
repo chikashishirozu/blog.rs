@@ -150,3 +150,13 @@ pub async fn delete_post(
     
     Ok(Redirect::to("/posts").into_response())
 }
+
+// シンプルなHTMLルートだけを定義
+pub fn routes() -> Routes {
+    Routes::new()
+        .add("/posts", get(index).post(create))
+        .add("/posts/new", get(new_post))
+        .add("/posts/:title", get(show))
+        .add("/posts/:title/edit", get(edit).post(update))
+        .add("/posts/:title/delete", post(delete_post))
+}

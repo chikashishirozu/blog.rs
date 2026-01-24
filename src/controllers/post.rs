@@ -118,9 +118,9 @@ pub async fn new_form() -> Html<&'static str> {
 
 pub fn routes() -> Routes {
     Routes::new()
-        .prefix("posts")
+        .prefix("api/posts")
         .add("/", get(list))
-        .add("/", post(add))  // これでPOST /api/postsが動作します
+        .add("/", post(add))
         .add("/:id", get(get_one))
         .add("/:id", delete(remove))
         .add("/:id", patch(update))
