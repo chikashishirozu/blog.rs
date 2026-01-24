@@ -22,7 +22,8 @@ pub struct RegisterParams {
     pub email: String,
     pub password: String,
     pub name: String,
-    pub picture_url: String,
+    #[serde(default)]  // ⭐ デフォルト値を許可    
+    pub picture_url: Option<String>,  // ⭐ Optionalに
 }
 
 #[derive(Debug, Validate, Deserialize)]
@@ -155,7 +156,7 @@ impl super::_entities::users::Model {
             email: ActiveValue::set(params.email.to_string()),
             password: ActiveValue::set(password_hash),
             name: ActiveValue::set(params.name.to_string()),
-            picture_url: ActiveValue::set(params.picture_url.to_string()),
+            picture_url: ActiveValue::set(params.picture_url.clone().unwrap_or_default()),
             ..Default::default()
         }
         .insert(&txn)
