@@ -9,9 +9,10 @@ edition = "2021"
 
 [dependencies]
 
-loco-rs = { version = "0.1.8" }
+loco-rs = { version = "0.1.9" }
 migration = { path = "migration" }
-tower-http = { version = "0.6", features = ["fs"] }  # 追加
+axum = { version = "0.7.9" }
+tower-http = { version = "0.6.8", features = ["fs"] }  # 追加
 
 #redis = "1.0.0" # または最新の安定版 
 #rusty-sidekiq = "0.13.2" # 最新バージョン 
@@ -33,7 +34,6 @@ sea-orm = { version = "0.12.4", features = [
   "macros",
 ] }
 
-axum = "0.7.2"
 include_dir = "0.7"
 uuid = { version = "1.6.0", features = ["v4"] }
 tracing-subscriber = { version = "0.3.17", features = ["env-filter", "json"] }
