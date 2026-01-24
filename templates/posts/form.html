@@ -58,7 +58,7 @@
             headers: {
               "Content-Type": "application/json",
               // ⭐ 認証が必要な場合はトークンを追加
-              // "Authorization": "Bearer " + localStorage.getItem('token')
+              "Authorization": "Bearer " + localStorage.getItem('token' || '')
             },
             body: JSON.stringify(data)
           });

@@ -14,7 +14,8 @@
     </div>
     <hr>
     <a href="/api/posts">← 戻る</a> | 
-    <a href="/api/posts/{{ post.title|urlencode }}/edit">編集</a> | 
-    <a href="/api/posts/{{ post.title|urlencode }}/delete" onclick="return confirm('削除しますか?')">削除</a>
+    <!-- IDを使用 -->
+    <a href="/api/posts/{{ post.id }}/edit">編集</a> | 
+    <a href="/api/posts/{{ post.id }}/delete" onclick="return confirm('削除しますか?')">削除</a>
 </body>
 </html>

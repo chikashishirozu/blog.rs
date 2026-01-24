@@ -13,7 +13,8 @@
     <ul>
     {% for p in posts %}
         <li>
-            <a href="/api/posts/{{ p.title|urlencode }}">{{ p.title }}</a>
+            <!-- タイトルではなくIDを使用 -->
+            <a href="/api/posts/{{ p.id }}">{{ p.title }}</a>
         </li>
     {% endfor %}
     </ul>
