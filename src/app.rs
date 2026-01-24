@@ -1,7 +1,6 @@
 use std::path::Path;
 
 use async_trait::async_trait;
-use axum::Router;
 use loco_rs::{
     app::{AppContext, Hooks},
     boot::{create_app, BootResult, StartMode},
@@ -13,7 +12,6 @@ use loco_rs::{
 };
 use migration::Migrator;
 use sea_orm::DatabaseConnection;
-use tower_http::services::ServeDir;
 
 use crate::{controllers, models::_entities::users, tasks, workers::downloader::DownloadWorker};
 
@@ -40,22 +38,19 @@ impl Hooks for App {
     }
 
     fn routes() -> AppRoutes {
-        // 静的ファイル配信（最も優先度を低くする = 最後にマッチさせる）
-        let static_router = Router::new()
-            .nest_service("/static", ServeDir::new("static"))
-            .nest_service("/assets", ServeDir::new("frontend/dist/assets"));
-
-        // APIルート
-        let api_router = Router::new()
-            .merge(controllers::auth::routes())
-            .merge(controllers::user::routes())
-            .merge(controllers::post::routes());
-
-        AppRoutes::with_default_routes()
-            // APIは /api プレフィックスで
-            .add_route(api_router.prefix("/api"))
-            // 静的ファイルは最後に
-            .add_route(static_router)
+        // Locoの従来の方法でRoutesを作成
+        let mut routes = AppRoutes::with_default_routes();
+        
+        // APIルートを追加
+        routes = routes
+            .add_route(controllers::auth::routes())
+            .add_route(controllers::user::routes())
+            .add_route(controllers::post::routes());
+        
+        // HTMLルートを追加（APIプレフィックスなし）
+        routes = routes.add_route(controllers::posts_html::routes());
+        
+        routes
     }
 
     fn connect_workers<'a>(p: &'a mut Processor, ctx: &'a AppContext) {
