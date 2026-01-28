@@ -23,6 +23,15 @@ docker run -d -p 5432:5432 \
   -e POSTGRES_PASSWORD="loco" \
   postgres:15.3-alpine
 ```
+# pgAdmin を起動
+```bash
+docker run -d \
+  -p 5050:80 \
+  --name loco-pgadmin \
+  -e PGADMIN_DEFAULT_EMAIL=admin@example.com \
+  -e PGADMIN_DEFAULT_PASSWORD=admin \
+  dpage/pgadmin4
+```
 # Redis を起動
 ```
 docker run -d -p 6379:6379 redis:alpine
