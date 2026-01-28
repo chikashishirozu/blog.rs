@@ -30,7 +30,7 @@ docker run -d \
   --name loco-pgadmin \
   -e PGADMIN_DEFAULT_EMAIL=admin@example.com \
   -e PGADMIN_DEFAULT_PASSWORD=admin \
-  dpage/pgadmin4
+  docker.io/dpage/pgadmin4
 ```
 # Redis を起動
 ```
